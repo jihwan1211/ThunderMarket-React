@@ -1,0 +1,43 @@
+.navContainer {
+  display: flex;
+  justify-content: center;
+  border-bottom: 1px solid #e4e0e0;
+}
+
+.nav {
+  font-family: "Noto Sans KR", sans-serif;
+  font-size: 13px;
+  color: #666666;
+  width: 1024px;
+}
+
+button {
+  border: 0;
+  background-color: transparent;
+  font-family: "Noto Sans KR", sans-serif;
+  font-size: 13px;
+  color: #666666;
+}
+
+.navImg {
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+}
+
+.navContentContainer {
+  display: flex;
+  justify-content: space-around;
+}
+
+.navContent {
+  display: flex;
+  align-items: center;
+  padding: 0 15px 0 15px;
+  height: 39px;
+}
