@@ -1,10 +1,10 @@
-const Product = (props) => {
-  console.log(props.url);
+const Product = ({ url }) => {
+  console.log(url);
   return (
     <div className="Product">
       <a>
         <div className="ProductImgDiv">
-          <img src={props.url} className="ProductImg"></img>
+          <img src={url} className="ProductImg"></img>
         </div>
         <div className="ProductDetailContainer">
           <div className="ProductName">우하하</div>
