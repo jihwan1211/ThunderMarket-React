@@ -1,7 +1,18 @@
-const Product = ({ url }) => {
-  console.log(url);
+import { useNavigate } from "react-router-dom";
+
+const Product = ({ url, id, handleProductClicked }) => {
+  // console.log(url);
+  // console.log(id);
+  const navigate = useNavigate();
+
   return (
-    <div className="Product">
+    <div
+      className="Product"
+      onClick={() => {
+        handleProductClicked();
+        navigate(`/product/${id}`);
+      }}
+    >
       <a>
         <div className="ProductImgDiv">
           <img src={url} className="ProductImg"></img>

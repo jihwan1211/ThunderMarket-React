@@ -1,17 +1,25 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Product from "./Product";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ProductDetail from "./ProductDetail";
 
-const ProductRecommend = ({ urlArray, isPageFoot }) => {
+import { AppContext } from "../App";
+const ProductRecommend = ({
+  isPageFoot,
+  handleProductClicked,
+  handleUrlTotalArray,
+}) => {
+  const urlArray = useContext(AppContext);
+
   const [imgArray, setImgArray] = useState([]);
   useEffect(() => {
     setImgArray([...urlArray]);
+    handleUrlTotalArray(imgArray);
   }, []);
 
   useEffect(() => {
     if (isPageFoot) {
       setImgArray([...imgArray, ...urlArray]);
+      handleUrlTotalArray(imgArray);
     }
   }, [isPageFoot]);
 
@@ -19,25 +27,14 @@ const ProductRecommend = ({ urlArray, isPageFoot }) => {
     <div className="ProductRecommend">
       {imgArray &&
         imgArray.map((it) => {
-          return <Product url={it.url} />;
+          return (
+            <Product
+              url={it.url}
+              id={it.id}
+              handleProductClicked={handleProductClicked}
+            />
+          );
         })}
-    </div>
-  );
-
-  return (
-    <div className="ProductRecommend">
-      <Routes>
-        {imgArray &&
-          imgArray.map((it) => {
-            return (
-              <Route
-                path="/:id"
-                element={<Product url={it.url} />}
-                index
-              ></Route>
-            );
-          })}
-      </Routes>
     </div>
   );
 };

@@ -2,13 +2,21 @@ import ProductRecommend from "./ProductRecommend";
 import ProductRecommendHeader from "./ProductRecommendHeader";
 import "./Product.css";
 
-const ProductContainer = ({ urlArray, isPageFoot }) => {
-  console.log(urlArray);
+const ProductContainer = ({
+  handleUrlTotalArray,
+  handleProductClicked,
+  isPageFoot,
+}) => {
+  // console.log(urlArray);
   return (
     <div className="ProductContainer">
       <div className="ProductSection">
         <ProductRecommendHeader />
-        <ProductRecommend urlArray={urlArray} isPageFoot={isPageFoot} />
+        <ProductRecommend
+          isPageFoot={isPageFoot}
+          handleProductClicked={handleProductClicked}
+          handleUrlTotalArray={handleUrlTotalArray}
+        />
       </div>
     </div>
   );
