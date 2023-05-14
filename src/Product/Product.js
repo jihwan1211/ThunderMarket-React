@@ -1,17 +1,18 @@
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { isProductClickedActions } from "../store";
 
-const Product = ({ url, id, handleProductClicked }) => {
-  // console.log(url);
-  // console.log(id);
+const Product = ({ url, id }) => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   return (
     <div
       className="Product"
       onClick={() => {
-        handleProductClicked();
+        dispatch(isProductClickedActions.toggle());
         navigate(`/product/${id}`);
-      }}
+      }} // 클릭한 상품 페이지로 이동
     >
       <a>
         <div className="ProductImgDiv">

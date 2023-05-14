@@ -3,32 +3,34 @@ import Nav from "./Nav/NavAppDownload";
 import NavContainer from "./Nav/NavContainer";
 import SBContainer from "./SearchBar/SBContainer";
 import Carousel from "./Carousel/Carousel";
-
-import React, {
-  Component,
-  useState,
-  useEffect,
-  useRef,
-  createContext,
-} from "react";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import QRCodeContainer from "./QRCode/QRCodeContainer";
 import ProductContainer from "./Product/ProductContainer";
 import ProductDetail from "./Product/ProductDetail";
 
+import React, { useState, useEffect, useRef } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  urlTotalArrayActions,
+  urlTempArrayActions,
+  isPageFootActions,
+} from "./store";
+
 const baseURL =
   "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/";
 
-export const AppContext = React.createContext();
-
 function App() {
-  const [isPageFoot, setIsPageFoot] = useState(false);
-  const [urlArray, setUrlArray] = useState([]);
-  const [urlTotalArray, setUrlTotalArray] = useState([]);
-  const [productClicked, setProductClicked] = useState(false);
-  const toggleProductClicked = () => setProductClicked(!productClicked);
+  // 페이지 끝에 도달?
+  const isPageFoot = useSelector((state) => state.isPageFoot.value);
+  // 상품이 클릭됐는지 여부 판단
+  const productClicked = useSelector((state) => state.isProductClicked.value);
+  // 배열 key
   const arrayKey = useRef(0);
 
+  const dispatch = useDispatch();
+  const urlTempArray = useSelector((state) => state.urlTempArray.list);
+
+  // 무작위 포켓몬 url 생성
   function makeRandURL() {
     let randNum = Math.floor(Math.random() * 150) + 1;
     return baseURL + randNum + ".png";
@@ -80,53 +82,37 @@ function App() {
         document.documentElement.clientHeight
       )
     ) {
-      setUrlArray(makeArrayData());
-      setIsPageFoot(true);
+      dispatch(urlTempArrayActions.add(makeArrayData()));
+      dispatch(isPageFootActions.set(true));
     } else {
-      setIsPageFoot(false);
+      dispatch(isPageFootActions.set(false));
     }
   };
 
-  const handleProductClicked = () => {
-    toggleProductClicked();
-  };
+  useEffect(() => {
+    dispatch(urlTotalArrayActions.add(urlTempArray));
+  }, [urlTempArray]);
 
-  const handleUrlTotalArray = (array) => {
-    setUrlTotalArray([...array]);
-  };
-
-  // console.log(urlTotalArray);
   return (
     <BrowserRouter>
-      <AppContext.Provider value={urlArray}>
-        <div className="App">
-          {!productClicked ? (
-            <>
-              <NavContainer />
-              <SBContainer />
-              <Carousel />
-              <QRCodeContainer />
-              <ProductContainer
-                isPageFoot={isPageFoot}
-                handleProductClicked={handleProductClicked}
-                handleUrlTotalArray={handleUrlTotalArray}
-              />
-            </>
-          ) : (
-            <Routes>
-              <Route
-                path="/product/:id"
-                element={
-                  <ProductDetail
-                    handleProductClicked={handleProductClicked}
-                    urlTotalArray={urlTotalArray}
-                  ></ProductDetail>
-                }
-              ></Route>
-            </Routes>
-          )}
-        </div>
-      </AppContext.Provider>
+      <div className="App">
+        {!productClicked ? (
+          <>
+            <NavContainer />
+            <SBContainer />
+            <Carousel />
+            <QRCodeContainer />
+            <ProductContainer />
+          </>
+        ) : (
+          <Routes>
+            <Route
+              path="/product/:id"
+              element={<ProductDetail></ProductDetail>}
+            ></Route>
+          </Routes>
+        )}
+      </div>
     </BrowserRouter>
   );
 }
