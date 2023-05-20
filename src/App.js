@@ -10,11 +10,14 @@ import ProductDetail from "./Product/ProductDetail";
 import React, { useState, useEffect, useRef } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { createBrowserHistory } from "history";
 import {
   urlTotalArrayActions,
   urlTempArrayActions,
   isPageFootActions,
+  isProductClickedActions,
 } from "./store";
+import HOME from "./Home";
 
 const baseURL =
   "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/";
@@ -26,6 +29,9 @@ function App() {
   const productClicked = useSelector((state) => state.isProductClicked.value);
   // 배열 key
   const arrayKey = useRef(0);
+
+  //history
+  const history = createBrowserHistory();
 
   const dispatch = useDispatch();
   const urlTempArray = useSelector((state) => state.urlTempArray.list);
@@ -67,6 +73,42 @@ function App() {
     window.addEventListener("scroll", handleScroll);
   }, []);
 
+  //브라우저 뒤로가기 사용
+  const [locationKeys, setLocationKeys] = useState([]);
+
+  useEffect(() => {
+    // 뒷정리 함수 이용
+    return history.listen((location) => {
+      if (history.action === "PUSH") {
+        setLocationKeys([location.key]);
+      }
+
+      if (history.action === "POP") {
+        if (locationKeys[1] === location.key) {
+          // 이거도 왜 있는지 잘 모르겠음
+
+          setLocationKeys(([_, ...keys]) => keys);
+          // setLocationKeys((keys) => [location.key, ...keys]);
+          dispatch(isProductClickedActions.toggle());
+          history.push("/");
+          console.log("뒤로가기");
+          console.log(productClicked);
+
+          // 앞으로 가기
+        } else {
+          // ? 이건 왜 있는건지 잘 모르겠음
+          setLocationKeys((keys) => [location.key, ...keys]);
+          // // productClicked 해결
+          // dispatch(isProductClickedActions.toggle());
+          // console.log("in history", productClicked);
+          // // 뒤로 가기
+          // setLocationKeys(([_, ...keys]) => keys);
+          console.log("앞으로가기");
+        }
+      }
+    });
+  }, [locationKeys, history]);
+
   const handleScroll = () => {
     if (
       // 화면 하단 위치 판단
@@ -97,13 +139,9 @@ function App() {
     <BrowserRouter>
       <div className="App">
         {!productClicked ? (
-          <>
-            <NavContainer />
-            <SBContainer />
-            <Carousel />
-            <QRCodeContainer />
-            <ProductContainer />
-          </>
+          <Routes>
+            <Route path="/" element={<HOME />}></Route>
+          </Routes>
         ) : (
           <Routes>
             <Route

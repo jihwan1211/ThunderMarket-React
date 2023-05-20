@@ -1,8 +1,10 @@
+import { NavContent, NavBtn } from "./NavContainer";
+
 const NavMyMarket = () => {
   return (
-    <div className="navContent">
-      <button>내상점</button>
-    </div>
+    <NavContent>
+      <NavBtn>내상점</NavBtn>
+    </NavContent>
   );
 };
 

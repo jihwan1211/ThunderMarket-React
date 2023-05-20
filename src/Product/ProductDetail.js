@@ -33,6 +33,26 @@ const ProductDetail = () => {
       <div>
         <NavContainer></NavContainer>
         <SBContainer></SBContainer>
+        {/* <div className="ProductDetailContainer">
+          <div className="ProductDetailOptions">
+            <div>
+              <img src="https://m.bunjang.co.kr/pc-static/resource/f1f8a93028f0f6305a87.png"></img>
+              홈
+            </div>
+            <div>
+              <img src="https://m.bunjang.co.kr/pc-static/resource/c5ce9d5a172b0744e630.png"></img>
+              <div>
+                스타굿즈
+                <img src="https://m.bunjang.co.kr/pc-static/resource/9b606ef2e7d57fafa657.png"></img>
+              </div>
+            </div>
+            <div></div>
+            <div></div>
+          </div>
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <img src={clickedProduct[0].url}></img>
+          </div>
+        </div> */}
         <div style={{ display: "flex", justifyContent: "center" }}>
           <img src={clickedProduct[0].url}></img>
         </div>
