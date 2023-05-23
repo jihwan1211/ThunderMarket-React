@@ -42,6 +42,10 @@ const SBContentContainer2 = styled.div`
   }
 `;
 
+// @media screen and (max-width: 1024px) {
+//   display: none;
+// }
+
 const SBContentMenu = styled.div`
   display: none;
   box-sizing: border-box;
@@ -51,10 +55,36 @@ const SBContentMenu = styled.div`
   }
 `;
 
+// @media screen and (max-width: 1024px) {
+//   display: flex;
+// }
+
 const Img = styled.img`
   width: 20px;
   height: 16px;
   margin-right: 20px;
+`;
+// 마우스 hover시 나오는 메뉴바를 감싸는 container
+const HoverMenuContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: relative;
+`;
+// hover시 나오는 div
+const HoverMenudiv = styled.div`
+  position: absolute;
+  top: 15px;
+  right: 25px;
+  background-color: white;
+
+  div {
+    width: 110px;
+    padding: 5px;
+    border: 1px solid #e4e0e0;
+    &:hover {
+      background-color: rgb(247, 22, 176);
+    }
+  }
 `;
 
 const MenuContainer = styled.div`
@@ -72,14 +102,17 @@ const SBContainer = () => {
         <SBContentContainer>
           <SBLogo></SBLogo>
         </SBContentContainer>
+
         <SBContentContainer>
           <SearchBar></SearchBar>
         </SBContentContainer>
+
         <SBContentContainer2>
           <SBSell />
           <SBMyMarket />
           <SBTalk />
         </SBContentContainer2>
+
         <SBContentMenu
           onMouseEnter={() => {
             setHovered(true);
@@ -88,21 +121,29 @@ const SBContainer = () => {
             setHovered(false);
           }}
         >
-          {hovered ? (
-            <Img
-              src={
-                "https://m.bunjang.co.kr/pc-static/resource/2519843d5dad3dc4d3b9.png"
-              }
-            ></Img>
-          ) : (
+          {!hovered ? (
             <Img
               src={
                 "https://m.bunjang.co.kr/pc-static/resource/9ddac97c001dd6e0c2eb.png"
               }
             ></Img>
+          ) : (
+            <HoverMenuContainer>
+              <Img
+                src={
+                  "https://m.bunjang.co.kr/pc-static/resource/2519843d5dad3dc4d3b9.png"
+                }
+              ></Img>
+              <HoverMenudiv>
+                <SBSell></SBSell>
+                <SBMyMarket></SBMyMarket>
+                <SBTalk></SBTalk>
+              </HoverMenudiv>
+            </HoverMenuContainer>
           )}
         </SBContentMenu>
       </SearchBarDiv>
+
       <MenuContainer>
         <Menu />
         <Sellcenter />
