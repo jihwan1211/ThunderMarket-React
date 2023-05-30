@@ -1,11 +1,7 @@
 import "./App.css";
-import Nav from "./Nav/NavAppDownload";
-import NavContainer from "./Nav/NavContainer";
-import SBContainer from "./SearchBar/SBContainer";
-import Carousel from "./Carousel/Carousel";
-import QRCodeContainer from "./QRCode/QRCodeContainer";
-import ProductContainer from "./Product/ProductContainer";
+
 import ProductDetail from "./Product/ProductDetail";
+import HOME from "./Home";
 
 import React, { useState, useEffect, useRef } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -17,7 +13,6 @@ import {
   isPageFootActions,
   isProductClickedActions,
 } from "./store";
-import HOME from "./Home";
 
 const baseURL =
   "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/";

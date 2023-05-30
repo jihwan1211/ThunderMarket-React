@@ -1,4 +1,5 @@
 import { configureStore, createSlice } from "@reduxjs/toolkit";
+import $ from "jquery";
 
 const initialState = { urlList: [] };
 
@@ -59,12 +60,40 @@ const isProductClicked = createSlice({
   },
 });
 
+const isModalClicked = createSlice({
+  name: "isModalClicked",
+  initialState: { value: false },
+  reducers: {
+    toggle(state) {
+      state.value = !state.value;
+    },
+  },
+});
+
+const KakaoLogin = createSlice({
+  name: "KakaoLogin",
+  initialState: { value: false, code: null, name: "" },
+  reducers: {
+    KakaoLoginBtnClicked(state) {
+      state.value = !state.value;
+    },
+    setLoginCode(state, action) {
+      state.code = action.payload;
+    },
+    setLoginUserName(state, action) {
+      state.name = action.payload;
+    },
+  },
+});
+
 const store = configureStore({
   reducer: {
     urlTotalArray: urlTotalArray.reducer,
     urlTempArray: urlTempArray.reducer,
     isPageFoot: isPageFoot.reducer,
     isProductClicked: isProductClicked.reducer,
+    isModalClicked: isModalClicked.reducer,
+    KakaoLogin: KakaoLogin.reducer,
   },
 });
 
@@ -72,5 +101,7 @@ export const urlTotalArrayActions = urlTotalArray.actions;
 export const urlTempArrayActions = urlTempArray.actions;
 export const isPageFootActions = isPageFoot.actions;
 export const isProductClickedActions = isProductClicked.actions;
+export const isModalClickedActions = isModalClicked.actions;
+export const KakaoLoginActions = KakaoLogin.actions;
 
 export default store;
